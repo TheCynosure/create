@@ -1,5 +1,4 @@
 #include <GL/glew.h>
-#include <GL/glut.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <math.h>
@@ -182,7 +181,8 @@ int main(int argc, char** argv) {
 
         glUseProgram(program);
 
-        glUniform1f(time_uniform, glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
+        glUniform1f(time_uniform, glfwGetTime());
+
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);

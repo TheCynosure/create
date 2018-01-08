@@ -1,5 +1,4 @@
 #include <GL/glew.h>
-#include <GL/glut.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
