@@ -3,10 +3,16 @@
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec4 color;
 
+uniform float loop_dur;
+uniform float time;
+
 smooth out vec4 color_vert;
 
 void main()
 {
-    gl_Position = position;
+    float time_scale = 3.14159f * 2.0f / loop_dur;
+    float curr_time = mod(time, loop_dur);
+    vec4 offset = vec4(cos(curr_time * time_scale) * 0.5f, sin(curr_time * time_scale) * 0.5f, 0.0f, 0.0f);
+    gl_Position = position + offset;
     color_vert = color;
 }

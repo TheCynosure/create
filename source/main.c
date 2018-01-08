@@ -2,6 +2,7 @@
 #include <GL/glut.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
+#include <math.h>
 #include "shaders.h"
 
 void error_callback(int error, const char* description) {
@@ -19,12 +20,102 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 const float vertex_pos[] = {
-     0.0f, 0.5f, 0.0f, 1.0f,
-     0.5f, -0.366f, 0.0f, 1.0f,
-    -0.5f, -0.366f, 0.0f, 1.0f,
-     1.0f,    0.0f, 0.0f, 1.0f,
-     0.0f,    1.0f, 0.0f, 1.0f,
-     0.0f,    0.0f, 1.0f, 1.0f,
+	 0.25f,  0.25f, 0.75f, 1.0f,
+	 0.25f, -0.25f, 0.75f, 1.0f,
+	-0.25f,  0.25f, 0.75f, 1.0f,
+
+	 0.25f, -0.25f, 0.75f, 1.0f,
+	-0.25f, -0.25f, 0.75f, 1.0f,
+	-0.25f,  0.25f, 0.75f, 1.0f,
+
+	 0.25f,  0.25f, -0.75f, 1.0f,
+	-0.25f,  0.25f, -0.75f, 1.0f,
+	 0.25f, -0.25f, -0.75f, 1.0f,
+
+	 0.25f, -0.25f, -0.75f, 1.0f,
+	-0.25f,  0.25f, -0.75f, 1.0f,
+	-0.25f, -0.25f, -0.75f, 1.0f,
+
+	-0.25f,  0.25f,  0.75f, 1.0f,
+	-0.25f, -0.25f,  0.75f, 1.0f,
+	-0.25f, -0.25f, -0.75f, 1.0f,
+
+	-0.25f,  0.25f,  0.75f, 1.0f,
+	-0.25f, -0.25f, -0.75f, 1.0f,
+	-0.25f,  0.25f, -0.75f, 1.0f,
+
+	 0.25f,  0.25f,  0.75f, 1.0f,
+	 0.25f, -0.25f, -0.75f, 1.0f,
+	 0.25f, -0.25f,  0.75f, 1.0f,
+
+	 0.25f,  0.25f,  0.75f, 1.0f,
+	 0.25f,  0.25f, -0.75f, 1.0f,
+	 0.25f, -0.25f, -0.75f, 1.0f,
+
+	 0.25f,  0.25f, -0.75f, 1.0f,
+	 0.25f,  0.25f,  0.75f, 1.0f,
+	-0.25f,  0.25f,  0.75f, 1.0f,
+
+	 0.25f,  0.25f, -0.75f, 1.0f,
+	-0.25f,  0.25f,  0.75f, 1.0f,
+	-0.25f,  0.25f, -0.75f, 1.0f,
+
+	 0.25f, -0.25f, -0.75f, 1.0f,
+	-0.25f, -0.25f,  0.75f, 1.0f,
+	 0.25f, -0.25f,  0.75f, 1.0f,
+
+	 0.25f, -0.25f, -0.75f, 1.0f,
+	-0.25f, -0.25f, -0.75f, 1.0f,
+	-0.25f, -0.25f,  0.75f, 1.0f,
+
+	0.0f, 0.0f, 1.0f, 1.0f,
+	0.0f, 0.0f, 1.0f, 1.0f,
+	0.0f, 0.0f, 1.0f, 1.0f,
+
+	0.0f, 0.0f, 1.0f, 1.0f,
+	0.0f, 0.0f, 1.0f, 1.0f,
+	0.0f, 0.0f, 1.0f, 1.0f,
+
+	0.8f, 0.8f, 0.8f, 1.0f,
+	0.8f, 0.8f, 0.8f, 1.0f,
+	0.8f, 0.8f, 0.8f, 1.0f,
+
+	0.8f, 0.8f, 0.8f, 1.0f,
+	0.8f, 0.8f, 0.8f, 1.0f,
+	0.8f, 0.8f, 0.8f, 1.0f,
+
+	0.0f, 1.0f, 0.0f, 1.0f,
+	0.0f, 1.0f, 0.0f, 1.0f,
+	0.0f, 1.0f, 0.0f, 1.0f,
+
+	0.0f, 1.0f, 0.0f, 1.0f,
+	0.0f, 1.0f, 0.0f, 1.0f,
+	0.0f, 1.0f, 0.0f, 1.0f,
+
+	0.5f, 0.5f, 0.0f, 1.0f,
+	0.5f, 0.5f, 0.0f, 1.0f,
+	0.5f, 0.5f, 0.0f, 1.0f,
+
+	0.5f, 0.5f, 0.0f, 1.0f,
+	0.5f, 0.5f, 0.0f, 1.0f,
+	0.5f, 0.5f, 0.0f, 1.0f,
+
+	1.0f, 0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 0.0f, 1.0f,
+
+	1.0f, 0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 0.0f, 1.0f,
+
+	0.0f, 1.0f, 1.0f, 1.0f,
+	0.0f, 1.0f, 1.0f, 1.0f,
+	0.0f, 1.0f, 1.0f, 1.0f,
+
+	0.0f, 1.0f, 1.0f, 1.0f,
+	0.0f, 1.0f, 1.0f, 1.0f,
+	0.0f, 1.0f, 1.0f, 1.0f,
+
 };
 
 int main(int argc, char** argv) {
@@ -39,7 +130,7 @@ int main(int argc, char** argv) {
     
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    window = glfwCreateWindow(1920, 1080, "create", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "create", NULL, NULL);
     if(!window) {
         glfwTerminate();
         return -1;
@@ -56,13 +147,20 @@ int main(int argc, char** argv) {
         return -1;
     }
    
-    glViewport(0, 0, (GLsizei) 1920, (GLsizei) 1080);
+    glViewport(0, 0, (GLsizei) 640, (GLsizei) 480);
 
     GLuint shader_list[2];
     shader_list[0] = init_shader("shaders/vertshader.txt", GL_VERTEX_SHADER);
     shader_list[1] = init_shader("shaders/fragshader.txt", GL_FRAGMENT_SHADER);
 
     GLuint program = init_program(shader_list, 2);
+    
+    GLuint time_uniform = glGetUniformLocation(program, "time");
+    GLuint loop_dur_uniform = glGetUniformLocation(program, "loop_dur");
+
+    glUseProgram(program);
+    glUniform1f(loop_dur_uniform, 5.0f);
+    glUseProgram(0);
 
     GLuint vertex_buffer;
     glGenBuffers(1, &vertex_buffer);
@@ -74,18 +172,24 @@ int main(int argc, char** argv) {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CW);
+
     while(!glfwWindowShouldClose(window)) {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(program);
+
+        glUniform1f(time_uniform, glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
         // 48 =  4 (Byte size of float) * 4 (Number of Floats in Vec4) * 3 (Number of Vertices)
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)48);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)576);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glUseProgram(0);

@@ -1,8 +1,14 @@
 #version 330
 
+uniform float loop_dur;
+uniform float time;
+
 smooth in vec4 color_vert;
 
 out vec4 output_color;
+
+const vec4 first_color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+const vec4 second_color = vec4(0.0f, 1.0f, 0.0f, 1.0f);
 
 void main() 
 {
