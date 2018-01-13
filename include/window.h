@@ -7,5 +7,6 @@
 void init_glut(int *argc, char **argv);
 void init_window(int width, int height);
 void attach_display_func(void (*func)(void));
+void reshape(int width, int height);
 
 #endif

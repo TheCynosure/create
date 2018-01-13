@@ -7,8 +7,7 @@
 #include "window.h"
 #include "render.h"
 
-int main(int argc, char** argv) {
-    
+int main(int argc, char** argv) { 
     //Initialize Glut Window
     init_glut(&argc, argv);
     init_window(640, 480);
