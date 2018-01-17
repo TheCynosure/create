@@ -7,6 +7,12 @@
 #include "window.h"
 #include "render.h"
 
+void MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
+        const GLchar* message, const void* user_param) {
+    if(type == GL_DEBUG_TYPE_ERROR)
+        fprintf(stderr, "Callback:\nType: %x\nSeverity: %x\nMessage: %s\n", type, severity, message);
+}
+
 int main(int argc, char** argv) { 
     //Initialize Glut Window
     init_glut(&argc, argv);
@@ -25,6 +31,9 @@ int main(int argc, char** argv) {
     
     //Print Glew Version
     fprintf(stdout, "Using GLEW: %s\n", glewGetString(GLEW_VERSION));
+
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback((GLDEBUGPROC) MessageCallback, NULL);
 
     //Default viewport setup.
     glViewport(0, 0, (GLsizei) 640, (GLsizei) 480);
