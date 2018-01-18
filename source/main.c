@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
     GLuint program = init_program(shader_list, 2);
 
     //Initialize Camera and other Uniforms
-    init_camera(program);
+    init_camera(program, 640, 480);
     
     render_init(program);
     glutMainLoop();
