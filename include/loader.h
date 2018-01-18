@@ -6,4 +6,4 @@
  * user to free the data at the end of his/her program.
  */
 
-float *load_general_format_verts(char* filename);
+float *load_general_format_verts(char* filename, size_t *size);

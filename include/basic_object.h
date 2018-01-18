@@ -13,5 +13,5 @@ struct Basic_Obj {
 };
 
 void add_vertices(struct Basic_Obj *obj, float vertices[], size_t vertices_size);
-void get_model_mat(struct Mat4 mat);
+void get_model_mat(struct Basic_Obj *obj, struct Mat4 *mat);
 void draw_object(struct Basic_Obj *obj);

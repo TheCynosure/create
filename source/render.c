@@ -32,7 +32,8 @@ void render_init(GLuint programID) {
     shader_program = programID;
 
     //Load up the vertex data
-    vertex_pos = load_general_format_verts("data/wedge.verts");
+    size_t vertex_size;
+    vertex_pos = load_general_format_verts("data/wedge.verts", &vertex_size);
 
     //TODO: Move all the below stuff into the Basic Object file
     //Generate a vertex buffer based on our vertex_pos array
