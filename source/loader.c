@@ -3,14 +3,24 @@
 #include <stdbool.h>
 #include "loader.h"
 
-bool load_general_format_verts(float data[], char* filename) {
+/* Returns an array of data which is the vertex and color data.
+ * It is up to the user to free this array when they are finished with it.
+ */
+float *load_general_format_verts(char* filename) {
     //Open the file and check for errors.
     FILE* vert_file = fopen(filename, "r");
     if(vert_file == NULL)
-        return false;
+        return NULL;
+
+    char line[1024];
+
+    //Get the number of lines in the file.
+    size_t lines;
+    while(fgets(line, 1024, vert_file) != NULL) { lines++; }
+    fseek(vert_file, 0, SEEK_SET);
 
     //Read line by line the input file.
-    char line[1024];
+    float *data = malloc(lines * 4 * sizeof(float));
     int i = 0;
     while(fgets(line, 1024, vert_file) != NULL) {
         //Extract the four floats on each line.
@@ -18,5 +28,5 @@ bool load_general_format_verts(float data[], char* filename) {
         i += 4;
     }
 
-    return true;
+    return data;
 }

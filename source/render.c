@@ -10,14 +10,7 @@
 #define ARRAY_COUNT( array ) (sizeof( array ) / (sizeof( array[0] ) * (sizeof( array ) != sizeof(void*) || sizeof( array[0] ) <= sizeof(void*))))
 #define NUM_OF_VERT 36
 
-typedef struct {
-    GLuint vertex_vbo;
-    GLuint vertex_vao;
-    GLuint index_buffer;
-    struct Mat4 translation_mat;
-} Obj;
-
-static float vertex_pos[288];
+static float *vertex_pos;
 static GLshort element_array[] = {
 	0, 2, 1,
 	3, 2, 0,
@@ -38,9 +31,8 @@ float offset = 0.0f;
 void render_init(GLuint programID) {
     shader_program = programID;
 
-    //TODO: Fix Loading function so that I dont have to specify array size.
     //Load up the vertex data
-    load_general_format_verts(vertex_pos, "data/wedge.verts");
+    vertex_pos = load_general_format_verts("data/wedge.verts");
 
     //TODO: Move all the below stuff into the Basic Object file
     //Generate a vertex buffer based on our vertex_pos array
@@ -97,6 +89,8 @@ void render_init(GLuint programID) {
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
     glDepthRange(0.0f, 1.0f);
+
+    free(vertex_pos);
 }
 
 void render_main(void) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
+#include <GL/glew.h>
 #include <stddef.h>
 
 GLuint init_shader(const char* shader_path, GLenum shader_type);

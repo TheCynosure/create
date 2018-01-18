@@ -1,8 +1,8 @@
 TARGET = create
 CC = gcc
-CFLAGS = -Wall -g `pkg-config --cflags glfw3` -std=c11 
-INCLUDES = -I/home/jack/Dev/Projects/create/include/ 
-LIBS = -lGL -lGLU -lglut -lGLEW `pkg-config --static --libs glfw3`
+CFLAGS = -Wall -g -std=c11 
+INCLUDES = -Iinclude 
+LIBS = -lGL -lGLU -lglut -lGLEW -lm
 SRC = $(wildcard source/*.c)
 
 default: $(TARGET)
