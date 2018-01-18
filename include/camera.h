@@ -1,16 +1,13 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include <GL/glew.h>
+#include <stdint.h>
 
-#define Z_NEAR 0.5f
-#define Z_FAR 1000.0f
+#define CAMERA_Z_NEAR 0.5f
+#define CAMERA_Z_FAR 1000.0f
 
 GLuint persp_program;
 float persp_mat[16];
 
-void init_camera(GLuint program, int w, int h);
-void change_aspect(int w, int h);
-
-#endif
-
+void init_camera(GLuint program, uint16_t w, uint16_t h);
+void change_aspect(uint16_t w, uint16_t h);
