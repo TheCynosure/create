@@ -65,13 +65,16 @@ void render_main(void) {
     offset += 0.01;
 
     //Clear the Screen
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Turn on the Shaders
     glUseProgram(shader_program);
 
+    wedge_1.offset[2] = -5.0f;
+    wedge_1.rotation[2] = cos(offset) * M_PI;
+    wedge_1.scale[0] = fabs(sin(offset));
     draw_object(&wedge_1, shader_program);
 
     //End the shader program

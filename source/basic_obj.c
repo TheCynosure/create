@@ -1,6 +1,5 @@
 #include <stddef.h>
 #include <cglm/cglm.h>
-#include <cglm/call.h>
 #include "basic_obj.h"
 
 void add_vertices(struct Basic_Obj *obj, float vertices[], size_t vertices_size) {
@@ -37,7 +36,7 @@ void add_vao(struct Basic_Obj *obj, size_t color_data_offset) {
 
 void get_model_mat(struct Basic_Obj *obj) {
     //Apply the translation
-    mat4 mat;
+    mat4 mat = GLM_MAT4_IDENTITY_INIT;
     glm_translate(mat, (vec3){obj->offset[0], obj->offset[1], obj->offset[2]});
 
     //Apply the orientation / rotation
@@ -46,10 +45,10 @@ void get_model_mat(struct Basic_Obj *obj) {
     glm_rotate(mat, obj->rotation[0], (vec3){1.0f, 0.0f, 0.0f});
 
     //Apply the scale
-    mat4 scale;
+    mat4 scale = GLM_MAT4_IDENTITY_INIT;
     glm_scale(scale, obj->scale);
 
-    mat4 final;
+    mat4 final = GLM_MAT4_IDENTITY_INIT;
     glm_mul(mat, scale, final);
 
     for(int c = 0; c < 4; c++) {
