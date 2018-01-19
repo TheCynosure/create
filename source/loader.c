@@ -21,7 +21,7 @@ float *load_general_format_verts(char* filename, size_t *size) {
 
     //Read line by line the input file.
     *size = lines * 4 * sizeof(float);
-    float *data = malloc(size);
+    float *data = malloc(*size);
     int i = 0;
     while(fgets(line, 1024, vert_file) != NULL) {
         //Extract the four floats on each line.

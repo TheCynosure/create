@@ -1,8 +1,8 @@
 TARGET = create
 CC = gcc
-CFLAGS = -Wall -g -std=c11 
-INCLUDES = -Iinclude 
-LIBS = -lGL -lGLU -lglut -lGLEW -lm
+CFLAGS = -Wall -g -std=gnu11
+INCLUDES = -Iinclude
+LIBS = -lGLEW -lGLU -lGL -lglut -lm
 SRC = $(wildcard source/*.c)
 
 default: $(TARGET)
@@ -12,4 +12,3 @@ $(TARGET):
 
 clean:
 	rm $(TARGET)
-
