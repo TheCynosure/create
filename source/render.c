@@ -2,6 +2,7 @@
 #include <GL/freeglut.h>
 #include <cglm/cglm.h>
 #include <math.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "render.h"
 #include "loader.h"
@@ -32,7 +33,6 @@ void render_init(GLuint program_id) {
     size_t vertex_size;
     vertex_pos = load_general_format_verts("data/wedge.verts", &vertex_size);
 
-    //TODO: Move all the below stuff into the Basic Object file
     //Generate a vertex buffer based on our vertex_pos array
     add_vertices(&wedge_1, vertex_pos, vertex_size);
 
@@ -58,6 +58,7 @@ void render_init(GLuint program_id) {
     glDepthMask(GL_TRUE);
     glDepthRange(0.0f, 1.0f);
 
+    atexit(render_cleanup);
     free(vertex_pos);
 }
 
@@ -65,7 +66,7 @@ void render_main(void) {
     offset += 0.01;
 
     //Clear the Screen
-    glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(fabs(sin(offset)), fabs(cos(offset)), fabs(tan(offset)), 0.0f);
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -75,11 +76,15 @@ void render_main(void) {
     wedge_1.offset[2] = -5.0f;
     wedge_1.rotation[2] = cos(offset) * M_PI;
     wedge_1.scale[0] = fabs(sin(offset));
-    draw_object(&wedge_1, shader_program);
+    draw_obj(&wedge_1, shader_program);
 
     //End the shader program
     glUseProgram(0);
 
     glutSwapBuffers();
     glutPostRedisplay();
+}
+
+void render_cleanup(void) {
+    cleanup_obj(&wedge_1);
 }

@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include <stddef.h>
 #include <cglm/cglm.h>
 #include "basic_obj.h"
@@ -7,6 +8,10 @@ void add_vertices(struct Basic_Obj *obj, float vertices[], size_t vertices_size)
     glGenBuffers(1, &obj->vertex_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, obj->vertex_vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices_size * sizeof(vertices[0]), vertices, GL_STATIC_DRAW);
+
+    //CHECKING BUFFER SIZE VS PASSED IN.
+    GLint size = 0;
+    glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -58,11 +63,17 @@ void get_model_mat(struct Basic_Obj *obj) {
     }
 }
 
-void draw_object(struct Basic_Obj *obj, GLuint program_id) {
+void draw_obj(struct Basic_Obj *obj, GLuint program_id) {
     GLuint model_mat_uniform = glGetUniformLocation(program_id, "model_view_mat");
     get_model_mat(obj);
     glBindVertexArray(obj->vao);
     glUniformMatrix4fv(model_mat_uniform, 1, GL_FALSE, obj->model_mat);
     glDrawElements(GL_TRIANGLES, obj->index_buffer_size, GL_UNSIGNED_SHORT, 0);
     glBindVertexArray(0);
+}
+
+void cleanup_obj(struct Basic_Obj *obj) {
+    glDeleteBuffers(1, &obj->vertex_vbo);
+    glDeleteBuffers(1, &obj->index_buffer);
+    glDeleteVertexArrays(1, &obj->vao);
 }

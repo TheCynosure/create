@@ -18,4 +18,5 @@ void add_vertices(struct Basic_Obj *obj, float vertices[], size_t vertices_size)
 void add_indices(struct Basic_Obj *obj, GLshort indices[], size_t indices_size);
 void add_vao(struct Basic_Obj *obj, size_t color_data_offset);
 void get_model_mat(struct Basic_Obj *obj);
-void draw_object(struct Basic_Obj *obj, GLuint program_id);
+void draw_obj(struct Basic_Obj *obj, GLuint program_id);
+void cleanup_obj(struct Basic_Obj *obj);
