@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "render.h"
+#include "camera.h"
 #include "loader.h"
 #include "basic_obj.h"
 
@@ -72,6 +73,8 @@ void render_main(void) {
 
     //Turn on the Shaders
     glUseProgram(shader_program);
+
+    set_camera_to_world_mat(shader_program);
 
     wedge_1.offset[2] = -5.0f;
     wedge_1.rotation[2] = cos(offset) * M_PI;

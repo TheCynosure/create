@@ -11,7 +11,7 @@ struct Basic_Obj {
     vec3 offset;
     vec3 scale;
     vec3 rotation;
-    float model_mat[16];
+    mat4 model_mat;
 };
 
 void add_vertices(struct Basic_Obj *obj, float vertices[], size_t vertices_size);

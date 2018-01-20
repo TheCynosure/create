@@ -53,21 +53,14 @@ void get_model_mat(struct Basic_Obj *obj) {
     mat4 scale = GLM_MAT4_IDENTITY_INIT;
     glm_scale(scale, obj->scale);
 
-    mat4 final = GLM_MAT4_IDENTITY_INIT;
-    glm_mul(mat, scale, final);
-
-    for(int c = 0; c < 4; c++) {
-        for(int r = 0; r < 4; r++) {
-            obj->model_mat[r * 4 + c] = final[r][c];
-        }
-    }
+    glm_mul(mat, scale, obj->model_mat);
 }
 
 void draw_obj(struct Basic_Obj *obj, GLuint program_id) {
     GLuint model_mat_uniform = glGetUniformLocation(program_id, "model_view_mat");
     get_model_mat(obj);
     glBindVertexArray(obj->vao);
-    glUniformMatrix4fv(model_mat_uniform, 1, GL_FALSE, obj->model_mat);
+    glUniformMatrix4fv(model_mat_uniform, 1, GL_FALSE, (float*) obj->model_mat);
     glDrawElements(GL_TRIANGLES, obj->index_buffer_size, GL_UNSIGNED_SHORT, 0);
     glBindVertexArray(0);
 }

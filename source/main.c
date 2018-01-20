@@ -51,6 +51,9 @@ int main(int argc, char** argv) {
 
     init_camera(program, WIDTH, HEIGHT);
 
+    //Setup the input handling.
+    glutPassiveMotionFunc(camera_move_callback);
+
     //Setup the renderer and enter the main rendering loop.
     render_init(program);
     glutMainLoop();
