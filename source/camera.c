@@ -4,11 +4,12 @@
 #include <math.h>
 #include <cglm/cglm.h>
 #include "camera.h"
+#include "window.h"
 
 float frustum_scale = 0.0f;
 vec3 camera_pos;
 vec3 camera_rot;
-vec3 old_camera_pos;
+uint32_t old_mouse_pos[] = {320, 240};
 
 float calc_frustum_scale_from_pov(float fov_deg) {
     //Turn the degree argument into radians.
@@ -26,14 +27,20 @@ void get_look_at_target(float *dir_to_cam) {
     float phi = camera_rot[0] * deg_to_rad;
     float theta = camera_rot[1] * deg_to_rad;
 
+    //X Rotation
     float sin_theta = sinf(theta);
     float cos_theta = cosf(theta);
+    //Y Rotation
     float sin_phi = sinf(phi);
     float cos_phi = cosf(phi);
 
-    dir_to_cam[0] = sin_theta * cos_phi * TARGET_RAD + camera_pos[0];
-    dir_to_cam[1] = cos_theta * TARGET_RAD + camera_pos[1];
-    dir_to_cam[2] = sin_theta * sin_phi * TARGET_RAD + camera_pos[2];
+    //From Wikipedia: http://mathworld.wolfram.com/SphericalCoordinates.html
+    //x = r * cos(theta) * sin(phi)
+    dir_to_cam[0] = TARGET_RAD * cos_theta * sin_phi + camera_pos[0];
+    //y = r * sin(theta) * sin(phi)
+    dir_to_cam[1] = TARGET_RAD * sin_theta * sin_phi + camera_pos[1];
+    //z = r * cos(phi)
+    dir_to_cam[2] = TARGET_RAD * cos_phi + camera_pos[2];
 }
 
 void init_camera(GLuint program, uint16_t w, uint16_t h) {
@@ -72,10 +79,13 @@ void change_aspect(uint16_t w, uint16_t h) {
 }
 
 void camera_move_callback(int x, int y) {
-    int delta_x = x - old_camera_pos[0];
-    int delta_y = y - old_camera_pos[1];
-    old_camera_pos[0] = x;
-    old_camera_pos[1] = y;
+    
+    int32_t delta_x = old_mouse_pos[0] - x;
+    int32_t delta_y = old_mouse_pos[1] - y;
+    old_mouse_pos[0] = x;
+    old_mouse_pos[1] = y;
+
+    printf("%d %d %f %f\n", delta_x, delta_y, delta_x * ROT_SPEED, delta_y * ROT_SPEED);
 
     camera_rot[0] += delta_x * ROT_SPEED;
     camera_rot[1] += delta_y * ROT_SPEED;
