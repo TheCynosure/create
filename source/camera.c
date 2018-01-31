@@ -85,10 +85,8 @@ void camera_move_callback(int x, int y) {
     old_mouse_pos[0] = x;
     old_mouse_pos[1] = y;
 
-    printf("%d %d %f %f\n", delta_x, delta_y, delta_x * ROT_SPEED, delta_y * ROT_SPEED);
-
-    camera_rot[0] += delta_x * ROT_SPEED;
-    camera_rot[1] += delta_y * ROT_SPEED;
+    camera_rot[0] += delta_x * X_ROT_SPEED;
+    camera_rot[1] -= delta_y * Y_ROT_SPEED;
 }
 
 void get_camera_to_world_mat(mat4 *mat) {

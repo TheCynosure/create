@@ -85,7 +85,6 @@ void render_main(void) {
     glUseProgram(0);
 
     glutSwapBuffers();
-    glutPostRedisplay();
 }
 
 void render_cleanup(void) {

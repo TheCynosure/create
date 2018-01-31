@@ -10,11 +10,16 @@
 #define WIDTH 640
 #define HEIGHT 480
 
-void MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
+void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity,
     GLsizei length, const GLchar* message, const void* user_param)
 {
     if(type == GL_DEBUG_TYPE_ERROR)
         fprintf(stderr, "Callback:\nType: %x\nSeverity: %x\nMessage: %s\n", type, severity, message);
+}
+
+void timer_func(int time) {
+    glutPostRedisplay();
+    glutTimerFunc(1000/60, timer_func, 0);
 }
 
 int main(int argc, char** argv) {
@@ -39,7 +44,7 @@ int main(int argc, char** argv) {
 
     //Enable error callbacks in OpenGL
     glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback((GLDEBUGPROC) MessageCallback, NULL);
+    glDebugMessageCallback((GLDEBUGPROC) message_callback, NULL);
 
     glViewport(0, 0, (GLsizei) WIDTH, (GLsizei) HEIGHT);
 
@@ -56,6 +61,8 @@ int main(int argc, char** argv) {
 
     //Setup the renderer and enter the main rendering loop.
     render_init(program);
+
+    glutTimerFunc(1000/60, timer_func, 0);
     glutMainLoop();
 
     return 0;

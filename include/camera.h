@@ -7,7 +7,8 @@
 #define CAMERA_Z_NEAR 0.5f
 #define CAMERA_Z_FAR 1000.0f
 #define TARGET_RAD -100.0f
-#define ROT_SPEED 0.5f
+#define X_ROT_SPEED 0.5f
+#define Y_ROT_SPEED 1.0f
 
 GLuint persp_program;
 float persp_mat[16];
