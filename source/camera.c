@@ -82,8 +82,14 @@ void camera_move_callback(int x, int y) {
 
     //Rotation about the Y-Axis but treat it like the Z for later.
     camera_rot[1] += delta_x * X_ROT_SPEED;
+
     //Rotation about the X-Axis
     camera_rot[0] += delta_y * Y_ROT_SPEED;
+    //Bound the Y Rotation (Actually around the X-Axis, but looks like Y-Axis in game) to [90, -90]
+    if(camera_rot[0] > 90)
+        camera_rot[0] = 90;
+    else if(camera_rot[0] < -90)
+        camera_rot[0] = -90;
 }
 
 void get_world_to_cam_mat(mat4 *mat) {
