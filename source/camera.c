@@ -59,8 +59,8 @@ void change_aspect(uint16_t w, uint16_t h) {
     persp_mat[0] = frustum_scale / (w / (float) h);
 
     //Change the original old mouse positions to the new middle of the screen so rotation will not be all screwy.
-    old_mouse_pos[0] = 0;
-    old_mouse_pos[1] = 0;
+    old_mouse_pos[0] = w / 2;
+    old_mouse_pos[1] = h / 2;
 
     //Also change the rotation back to the original 0, 0, 0
     camera_rot[0] = 0; 
