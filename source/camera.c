@@ -19,28 +19,14 @@ float calc_frustum_scale_from_pov(float fov_deg) {
     return 1.0f / tan(fov_rad / 2.0f);
 }
 
-void get_look_at_target(float *dir_to_cam) {
-    //See here for explanation:
-    // http://opengl.datenwolf.net/gltut/html/Positioning/Tutorial%2007.html
-    float deg_to_rad = M_PI / 180.0;
-    //Convert the rotation of the camera to radians.
-    float phi = camera_rot[0] * deg_to_rad;
-    float theta = camera_rot[1] * deg_to_rad;
-
-    //X Rotation
-    float sin_theta = sinf(theta);
-    float cos_theta = cosf(theta);
-    //Y Rotation
-    float sin_phi = sinf(phi);
-    float cos_phi = cosf(phi);
-
-    //From Wikipedia: http://mathworld.wolfram.com/SphericalCoordinates.html
-    //x = r * cos(theta) * sin(phi)
-    dir_to_cam[0] = TARGET_RAD * cos_theta * sin_phi + camera_pos[0];
-    //y = r * sin(theta) * sin(phi)
-    dir_to_cam[1] = TARGET_RAD * sin_theta * sin_phi + camera_pos[1];
-    //z = r * cos(phi)
-    dir_to_cam[2] = TARGET_RAD * cos_phi + camera_pos[2];
+void get_look_at_target(float dir_to_cam[3]) {
+    dir_to_cam[0] = camera_pos[0];
+    dir_to_cam[1] = camera_pos[1];
+    dir_to_cam[2] = camera_pos[2] + TARGET_RAD;
+    
+    glm_vec_rotate(dir_to_cam, glm_rad(camera_rot[2]), (vec3){0.0f, 0.0f, 1.0f});
+    glm_vec_rotate(dir_to_cam, glm_rad(camera_rot[1]), (vec3){0.0f, 1.0f, 0.0f});
+    glm_vec_rotate(dir_to_cam, glm_rad(camera_rot[0]), (vec3){1.0f, 0.0f, 0.0f}); 
 }
 
 void init_camera(GLuint program, uint16_t w, uint16_t h) {
@@ -85,20 +71,22 @@ void camera_move_callback(int x, int y) {
     old_mouse_pos[0] = x;
     old_mouse_pos[1] = y;
 
-    camera_rot[0] += delta_x * X_ROT_SPEED;
-    camera_rot[1] -= delta_y * Y_ROT_SPEED;
+    //Rotation about the Y-Axis but treat it like the Z for later.
+    camera_rot[1] += delta_x * X_ROT_SPEED;
+    //Rotation about the X-Axis
+    camera_rot[0] += delta_y * Y_ROT_SPEED;
 }
 
-void get_camera_to_world_mat(mat4 *mat) {
+void get_world_to_cam_mat(mat4 *mat) {
     vec3 up = {0.0f, 1.0f, 0.0f};
     float look_at_target_pos[3];
-    get_look_at_target(&look_at_target_pos);
+    get_look_at_target(look_at_target_pos);
     glm_lookat(camera_pos, look_at_target_pos, up, *mat);
 }
 
-void set_camera_to_world_mat(GLuint program_id) {
-    GLuint loc = glGetUniformLocation(program_id, "cam_to_world_mat");
+void set_world_to_cam_mat(GLuint program_id) {
+    GLuint loc = glGetUniformLocation(program_id, "world_to_cam_mat");
     mat4 look_at_mat = GLM_MAT4_IDENTITY_INIT;
-    get_camera_to_world_mat(&look_at_mat);
+    get_world_to_cam_mat(&look_at_mat);
     glUniformMatrix4fv(loc, 1, GL_FALSE, (float*) look_at_mat);
 }
