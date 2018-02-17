@@ -58,6 +58,15 @@ void change_aspect(uint16_t w, uint16_t h) {
     //Change the x frustum_scale depending on the aspect ratio.
     persp_mat[0] = frustum_scale / (w / (float) h);
 
+    //Change the original old mouse positions to the new middle of the screen so rotation will not be all screwy.
+    old_mouse_pos[0] = 0;
+    old_mouse_pos[1] = 0;
+
+    //Also change the rotation back to the original 0, 0, 0
+    camera_rot[0] = 0; 
+    camera_rot[1] = 0; 
+    camera_rot[2] = 0;
+
     //Set the new perspective matrix in the shader.
     glUseProgram(persp_program);
     glUniformMatrix4fv(perspective_mat_uniform, 1, GL_FALSE, persp_mat);
