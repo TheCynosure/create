@@ -1,6 +1,6 @@
 TARGET = create
 CC = gcc
-CFLAGS = -Wall -g -std=gnu11
+CFLAGS = -Wall -g -std=gnu11 -fno-common
 INCLUDES = -Iinclude
 LIBS = -lGLEW -lGLU -lGL -lglut -lm
 SRC = $(wildcard source/*.c)
